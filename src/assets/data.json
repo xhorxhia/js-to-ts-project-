@@ -1,0 +1,4 @@
+{
+  "formules" : ["U=Math.sqrt(P/R)","U=P/I","U=R*I","R=U/I","I=U/R","P=U*I"],
+  "signes" : [["U","V"],["R","Ω"],["I","A"],["P","W"]]
+}
