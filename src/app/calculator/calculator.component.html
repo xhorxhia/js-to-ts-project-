@@ -12,33 +12,40 @@
     <form (ngSubmit)="calculate()">
         <mat-form-field appearance="fill">
             <mat-label>Grandeur recherchée:</mat-label>
-            <mat-select [(ngModel)]="model" name="model"> <!-- dropdown -->
+            <mat-select [(ngModel)]="model" name="model">
+                <!-- dropdown -->
                 <mat-option *ngFor="let signe of signes" [value]="signe[0]">
                     {{signe[0]}} ({{signe[1]}})
                 </mat-option>
             </mat-select>
         </mat-form-field>
-       
         <button mat-button type="submit" color="primary" style="margin-left: 10px;">Lancer le formule</button>
     </form>
-    <section *ngFor="let signe of signes"> <!-- checkbox with signes -->
-        <mat-checkbox (change)="onCheckboxChange($event)" [disabled]="model == signe[0] ? true : false"
-            [value]="signe[0]">{{signe[0]}}</mat-checkbox>          
-    </section>
-       
-    <div id="results_container" *ngFor="let result of results">
-        <p>{{result}}</p>   
+
+
+
+
+    <div class="grid-container" style="display: inline-grid; grid-template-columns: auto auto auto; padding: 10px;">
+        <div class="grid-item">
+            <section *ngFor="let signe of signes; let i = index">
+                <mat-checkbox (change)="onCheckboxChange($event)" [disabled]="model == signe[0] ? true : false"
+                    [value]="signe[0]">{{signe[0]}}</mat-checkbox>&nbsp;
+            </section>
+        </div>
+        <div class="grid-item" style="margin-left: 30px; padding-top: 10px;"> 
+            <input type="string" [(ngModel)]="val1" id="signVal1"> <br><br>
+            <input type="string" [(ngModel)]="val2" id="signVal2">&nbsp;
+        </div>
+        <div class="grid-item" style="margin-left: 30px; padding-top: 10px;"> 
+            <button mat-button color="primary" style="margin-left: 10px; margin-top: 50px;" (click)="finalResult()">Calculez</button>
+
+        </div>
     </div>
-    
-    <p>Formule no.1 </p>
-    <input  type="string" [(ngModel)]="val1" id="signVal1"> &nbsp;
-    <input  type="string"[(ngModel)]="val2"  id="signVal2">
-    <p>{{finalRes}}</p>
-    <p>Formule no.2 </p>
-    <input  type="string" [(ngModel)]="val3" id="signVal1"> &nbsp;
-    <input  type="string"[(ngModel)]="val4"  id="signVal2">
-    <button mat-button  color="primary" style="margin-left: 10px;" (click)="finalResult()">Calculez</button>
-    <p>{{finalRes2}}</p>
+
+    <div id="results_container" *ngFor="let result of results">
+        <p>{{result}}</p>
+    </div>
+    <p>Le résultat: {{letters2[0]}} {{operator2}} {{letters2[1]}} =  {{finalRes2}}</p>
 </body>
 
 </html>

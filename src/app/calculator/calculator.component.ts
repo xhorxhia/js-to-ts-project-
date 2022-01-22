@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSelectChange } from '@angular/material/select';
 import data from '../../assets/data.json';
+import { SignalValueModel } from './signalValueModel';
 
 @Component({
   selector: 'app-calculator',
@@ -18,8 +19,11 @@ export class CalculatorComponent implements OnInit {
   public model: any;
   public val1: any;
   public val2: any;
-  public val3: any;
-  public val4: any;
+  public letters2: any= [];
+  public operator2: any;
+  public i: any;
+  // public signalValue:  Array<SignalValueModel[]> = [];
+  public values:Array<Number> = [];
   disabled = true
 
 
@@ -27,6 +31,7 @@ export class CalculatorComponent implements OnInit {
 
   ngOnInit(): void {
     this.formule_reader();
+    this.initializeValues();
   }
 
   onCheckboxChange(event: MatCheckboxChange) {
@@ -42,6 +47,12 @@ export class CalculatorComponent implements OnInit {
       }
     }
   }
+
+  initializeValues(){
+    this.values.length = this.signes.length;
+    this.i=this.signes.length;
+  }
+  
 
   public formula: any;
   public helpingFormula: any = '';
@@ -85,22 +96,23 @@ export class CalculatorComponent implements OnInit {
 
     if (this.results[0] == null && !this.results[1].includes("Math.sqrt")) {
       let res = this.results[1].split('=');
-      let exp = res[1].split(/[*,/]/); // get only letters
-      let operator = res[1].match(/[*,/]/g); // save the operator
+      this.letters2 = res[1].split(/[*,/]/); // get only letters
+      this.operator2 = res[1].match(/[*,/]/g); // save the operator
 
-      let finalExp = this.val1 + operator + this.val2
+      let finalExp = this.val1 + this.operator2 + this.val2
 
-      this.finalRes = eval(finalExp);
+      this.finalRes2 = eval(finalExp);
 
 
     } else if (this.results[0] == null && this.results[1].includes("Math.sqrt")) {
       
       let res2 = this.results[1].split('=');
-      let operator2 = res2[1].match(/[*,/]/g); // save the operator
-      let exp = this.val1 + operator2 + this.val2  // part inside ()
+      this.letters2 = res2[1].split(/[*,/]/); // get only letters
+      this.operator2 = res2[1].match(/[*,/]/g); // save the operator
+      let exp = this.val1 + this.operator2 + this.val2  // part inside ()
       exp=eval(exp)
 
-      this.finalRes= Math.sqrt(exp)
+      this.finalRes2= Math.sqrt(exp)
 
 
     } else if (this.results[0] != null && !this.results[0].includes("Math.sqrt") &&
@@ -108,31 +120,42 @@ export class CalculatorComponent implements OnInit {
       // first formula
       let res = this.results[0].split('=');
       let operator = res[1].match(/[*,/]/g); // save the operator
-      let finalExp = this.val1 + operator + this.val2
+      let finalExp = this.val1 + operator+ this.val2
       this.finalRes = eval(finalExp);
 
       // // second formula
       let res2 = this.results[1].split('=');
-      let operator2 = res2[1].match(/[*,/]/g); // save the operator
-      let finalExp2 = this.val3 + operator2 + this.val4
+      this.letters2 = res2[1].split(/[*,/]/); // get only letters
+      this.operator2 = res2[1].match(/[*,/]/g); // save the operator
+      let finalExp2 = this.finalRes + this.operator2 + this.val2
       this.finalRes2 = eval(finalExp2);
 
 
     } else if (this.results[0].includes("Math.sqrt") && !this.results[1].includes("Math.sqrt")) {
       // first formula
-      let res = this.results[1].split('=');
-      let operator = res[1].match(/[*,/]/g); // save the operator
+      let res = this.results[0].split('=');
+      let subExp = res[1].substring(10,13); // get only expression
+      let letters = subExp.split(/[*,/]/); // get only letters 
+      console.log(letters);
+      
+      let operator = subExp.match(/[*,/]/g); // save the operator      
       let exp = this.val1 + operator + this.val2  // part inside ()
       exp=eval(exp)
-
-      this.finalRes= Math.sqrt(exp)
+      this.finalRes = Math.sqrt(exp)
 
 
       // second formula
       let res2 = this.results[1].split('=');
-      let operator2 = res2[1].match(/[*,/]/g); // save the operator
-      let finalExp2 = this.val3 + operator2 + this.val4
-      this.finalRes2 = eval(finalExp2);
+      this.letters2 = res2[1].split(/[*,/]/); // get only letters
+      this.operator2 = "/";
+
+      this.letters2[1] = letters[0];
+      let finalExp2 = this.val1 + this.operator2 + this.finalRes 
+    
+      this.finalRes2 = eval(finalExp2)
+
+
+
     }
 
 
