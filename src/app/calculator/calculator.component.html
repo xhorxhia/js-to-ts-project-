@@ -27,7 +27,7 @@
 
     <div class="grid-container" style="display: inline-grid; grid-template-columns: auto auto auto; padding: 10px;">
         <div class="grid-item">
-            <section *ngFor="let signe of signes; let i = index">
+            <section *ngFor="let signe of signes;">
                 <mat-checkbox (change)="onCheckboxChange($event)" [disabled]="model == signe[0] ? true : false"
                     [value]="signe[0]">{{signe[0]}}</mat-checkbox>&nbsp;
             </section>
@@ -45,7 +45,7 @@
     <div id="results_container" *ngFor="let result of results">
         <p>{{result}}</p>
     </div>
-    <p>Le résultat: {{letters2[0]}} {{operator2}} {{letters2[1]}} =  {{finalRes2}}</p>
+    <p>Le résultat: {{letters2[0]}} {{operator2}} {{letters2[1]}} =  {{a1}} {{operator2}} {{a2}} = {{finalRes2}}</p>
 </body>
 
 </html>

@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSelectChange } from '@angular/material/select';
 import data from '../../assets/data.json';
-import { SignalValueModel } from './signalValueModel';
 
 @Component({
   selector: 'app-calculator',
@@ -21,8 +20,8 @@ export class CalculatorComponent implements OnInit {
   public val2: any;
   public letters2: any= [];
   public operator2: any;
-  public i: any;
-  // public signalValue:  Array<SignalValueModel[]> = [];
+  public a1:any = '';
+  public a2: any = '';
   public values:Array<Number> = [];
   disabled = true
 
@@ -31,7 +30,6 @@ export class CalculatorComponent implements OnInit {
 
   ngOnInit(): void {
     this.formule_reader();
-    this.initializeValues();
   }
 
   onCheckboxChange(event: MatCheckboxChange) {
@@ -47,12 +45,6 @@ export class CalculatorComponent implements OnInit {
       }
     }
   }
-
-  initializeValues(){
-    this.values.length = this.signes.length;
-    this.i=this.signes.length;
-  }
-  
 
   public formula: any;
   public helpingFormula: any = '';
@@ -101,6 +93,8 @@ export class CalculatorComponent implements OnInit {
 
       let finalExp = this.val1 + this.operator2 + this.val2
 
+      this.a1 = this.val1;
+      this.a2 = this.val2;
       this.finalRes2 = eval(finalExp);
 
 
@@ -112,6 +106,8 @@ export class CalculatorComponent implements OnInit {
       let exp = this.val1 + this.operator2 + this.val2  // part inside ()
       exp=eval(exp)
 
+      this.a1 = this.val1;
+      this.a2 = this.val2;
       this.finalRes2= Math.sqrt(exp)
 
 
@@ -128,6 +124,9 @@ export class CalculatorComponent implements OnInit {
       this.letters2 = res2[1].split(/[*,/]/); // get only letters
       this.operator2 = res2[1].match(/[*,/]/g); // save the operator
       let finalExp2 = this.finalRes + this.operator2 + this.val2
+
+      this.a1 = this.finalRes;
+      this.a2 = this.val2;
       this.finalRes2 = eval(finalExp2);
 
 
@@ -148,10 +147,15 @@ export class CalculatorComponent implements OnInit {
       let res2 = this.results[1].split('=');
       this.letters2 = res2[1].split(/[*,/]/); // get only letters
       this.operator2 = "/";
-
-      this.letters2[1] = letters[0];
+      console.log(this.letters2);
+      
+      this.letters2[1] = this.letters2[0];
+      this.letters2[0] = letters[0];
+      
       let finalExp2 = this.val1 + this.operator2 + this.finalRes 
     
+      this.a1 = this.val1;
+      this.a2 = this.finalRes;
       this.finalRes2 = eval(finalExp2)
 
 
